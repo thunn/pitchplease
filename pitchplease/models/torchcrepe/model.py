@@ -6,9 +6,6 @@ import functools
 import torch
 import torch.nn.functional as F
 
-PITCH_BINS = 360
-
-
 ###########################################################################
 # Model definition
 ###########################################################################
@@ -17,7 +14,7 @@ PITCH_BINS = 360
 class Crepe(torch.nn.Module):
     """Crepe model definition"""
 
-    def __init__(self, model="full"):
+    def __init__(self, model="full", pitch_bins=360):
         super().__init__()
 
         # Model-specific layer parameters
@@ -70,7 +67,7 @@ class Crepe(torch.nn.Module):
         )
         self.conv6_BN = batch_norm_fn(num_features=out_channels[5])
 
-        self.classifier = torch.nn.Linear(in_features=self.in_features, out_features=PITCH_BINS)
+        self.classifier = torch.nn.Linear(in_features=self.in_features, out_features=pitch_bins)
 
     def forward(self, x, embed=False):
         # Forward pass through first five layers
