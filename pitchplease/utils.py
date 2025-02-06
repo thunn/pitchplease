@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
@@ -80,3 +81,20 @@ class Audio:
     def __len__(self) -> int:
         """Returns number of samples in audio."""
         return self.waveform.shape[-1]
+
+
+class PitchPredictor(ABC):
+    """Abstract base class for pitch prediction models."""
+
+    @abstractmethod
+    def predict(self, audio: Audio) -> torch.Tensor:
+        """
+        Predict pitch contour from audio.
+
+        Args:
+            audio (Audio): Input audio to predict pitch from
+
+        Returns:
+            torch.Tensor: Predicted pitch contour in Hz. Shape: [num_frames]
+        """
+        pass
